@@ -4,7 +4,8 @@ import logo from '@/assets/logo.png';
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-neutral text-neutral-content shadow-sm px-4 lg:px-08">
+    <div className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-neutral shadow-sm">
+      <div className="navbar w-11/12 mx-auto text-neutral-content px-4">
 
       <div className="navbar-start">
 
@@ -14,7 +15,7 @@ const Navbar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </div>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#12141c] rounded-box w-52 border border-zinc-800">
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-[#12141c] rounded-box w-52 border border-zinc-800">
             <li><a className="hover:text-lime-400 font-semibold">Workouts</a></li>
             <li><a className="text-zinc-300">My Plan</a></li>
           </ul>
@@ -59,6 +60,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      </div>
     </div>
   );
 };

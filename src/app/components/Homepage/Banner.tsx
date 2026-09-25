@@ -4,7 +4,7 @@ import bannerImage from "@/assets/banner.png";
 
 const Banner = () => {
   return (
-    <div className="bg-[#12141c] border border-zinc-800/80 rounded-2xl lg:rounded-3xl grid grid-cols-1 lg:grid-cols-2 items-center gap-8 px-4 sm:px-6 py-8 sm:py-12 lg:px-16 lg:py-16 my-4 lg:my-6 mx-2 sm:mx-4">
+    <div className="w-11/12 mx-auto bg-[#12141c] border border-zinc-800/80 rounded-2xl lg:rounded-3xl grid grid-cols-1 lg:grid-cols-2 items-center gap-8 px-4 sm:px-6 py-8 sm:py-12 lg:px-16 lg:py-16 mt-8 mb-4 lg:mt-10 lg:mb-6">
       
       <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4">
         <span className="text-lime-400 font-bold text-xs tracking-widest uppercase">
@@ -25,7 +25,7 @@ const Banner = () => {
       </div>
 
       <div className="flex justify-center lg:justify-end">
-        <div className="relative w-full max-w-[280px] sm:max-w-md h-64 sm:h-72 lg:h-96">
+        <div className="relative w-full max-w-70 sm:max-w-md h-64 sm:h-72 lg:h-96">
           <Image 
             src={bannerImage} 
             alt="Workout Banner Image" 
