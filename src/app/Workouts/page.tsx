@@ -52,7 +52,7 @@ const Library = () => {
   }, []);
 
   return (
-    <section id="saved" className="w-10/12 mx-auto py-8">
+    <section className="w-10/12 mx-auto py-8">
 
       <div className="mb-8">
         <h2 className="text-2xl font-extrabold text-white uppercase tracking-wider">

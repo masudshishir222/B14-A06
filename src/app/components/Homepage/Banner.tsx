@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import bannerImage from "@/assets/banner.png";
 
 const Banner = () => {
@@ -16,12 +17,12 @@ const Banner = () => {
         </h1>
         
         <p className="text-zinc-400 text-xs sm:text-sm lg:text-base leading-relaxed max-w-lg">
-          FitLog is a dark, no-nonsense gym companion: pick a lift, lock it into  today's plan, and watch the week's work add up.
+          FitLog is a dark, no-nonsense gym companion: pick a lift, lock it into today&apos;s plan, and watch the week&apos;s work add up.
         </p>
         
-        <button className="mt-2 bg-lime-400 hover:bg-lime-500 text-black font-bold px-6 py-3 rounded-md text-sm transition-colors duration-200 w-full sm:w-auto">
+        <Link href="/Workouts" className="mt-2 bg-lime-400 hover:bg-lime-500 text-black font-bold px-6 py-3 rounded-md text-sm transition-colors duration-200 w-full sm:w-auto text-center">
           BROWSE WORKOUTS
-        </button>
+        </Link>
       </div>
 
       <div className="flex justify-center lg:justify-end">
