@@ -5,7 +5,7 @@ import logo from '@/assets/logo.png';
 const Navbar = () => {
   return (
     <div className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-neutral shadow-sm">
-      <div className="navbar w-11/12 mx-auto text-neutral-content px-4">
+      <div className="navbar w-10/12 mx-auto text-neutral-content px-0">
 
       <div className="navbar-start">
 
@@ -21,7 +21,7 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <a className="btn btn-ghost text-xl normal-case flex items-center gap-2 hover:bg-transparent">
+        <a className="btn btn-ghost text-xl normal-case flex items-center gap-2 p-0 hover:bg-transparent">
           <div className="relative w-8 h-8 flex items-center justify-center"> 
             <Image src={logo} alt="Fitlog Logo" fill className="object-contain" />
           </div>
@@ -46,14 +46,14 @@ const Navbar = () => {
 
       <div className="navbar-end gap-3 lg:gap-4 text-xs lg:text-sm font-medium">
         <div className="flex items-center gap-1.5 lg:gap-2 text-zinc-300">
-          <span>Plan</span>
+          <button className="hover:text-lime-400 font-semibold">Plan</button>
           <span className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-lime-400 text-black flex items-center justify-center font-bold text-[11px] lg:text-xs">
             0
           </span>
         </div>
         
         <div className="flex items-center gap-1.5 lg:gap-2 text-zinc-300">
-          <span>Saved</span>
+          <button className="hover:text-lime-400 font-semibold">Saved</button>
           <span className="w-6 h-6 lg:w-7 lg:h-7 rounded-full border border-zinc-700 bg-zinc-900 text-zinc-300 flex items-center justify-center font-bold text-[11px] lg:text-xs">
             0
           </span>
