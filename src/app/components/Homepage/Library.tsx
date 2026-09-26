@@ -16,13 +16,13 @@ const Library = () => {
 
     const loadLibrary = async () => {
       try {
-        const response = await fetch(
-          "https://api.abcz.workers.dev/api/fitlog",
-          { signal: controller.signal },
-        );
+        const response = await fetch("/api/fitlog", {
+          signal: controller.signal,
+        });
 
         if (!response.ok) {
-          throw new Error(`Library API returned ${response.status}`);
+          setHasError(true);
+          return;
         }
 
         const result: unknown = await response.json();
