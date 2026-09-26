@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { LibraryItem } from "@/Types/type";
+import AddButton from "@/app/components/WorkoutDetails/addButton";
+import AddButton2 from "@/app/components/WorkoutDetails/wishlistButton";
 
 interface WorkoutDetailsPageProps {
   params: Promise<{
@@ -38,7 +40,7 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
       <div className="rounded-3xl border border-[#292b35] bg-[#12141c] p-6 sm:p-10 shadow-2xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           
-          <div className="relative w-full h-[350px] sm:h-[450px] lg:h-[550px] rounded-2xl overflow-hidden bg-zinc-900">
+          <div className="relative w-full h-87.5 sm:h-112.5 lg:h-137.5 rounded-2xl overflow-hidden bg-zinc-900">
             <Image
               src={workout.image}
               alt={workout.name}
@@ -116,12 +118,9 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-              <button className="w-full sm:w-auto flex-1 bg-lime-400 hover:bg-lime-500 text-black font-bold px-6 py-3.5 rounded-xl text-xs sm:text-sm transition-colors flex items-center justify-center gap-2">
-                📅 Add to today's plan
-              </button>
-              <button className="w-full sm:w-auto flex-1 bg-transparent hover:bg-zinc-800 text-white border border-zinc-700 font-bold px-6 py-3.5 rounded-xl text-xs sm:text-sm transition-colors flex items-center justify-center gap-2">
-                🔖 Save for later
-              </button>
+              <AddButton item={workout} />
+              <AddButton2 item={workout} />
+              
             </div>
 
           </div>

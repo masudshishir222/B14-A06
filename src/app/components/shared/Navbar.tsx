@@ -1,9 +1,20 @@
+"use client";
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '@/assets/logo.png';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { LibraryContext } from '@/Context/LibraryContext';
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const context = useContext(LibraryContext);
+  const planCount = context?.workout.length ?? 0;
+  const savedCount = context?.wishlist.length ?? 0;
+  const isWorkoutsActive = pathname.startsWith('/Workouts');
+  const isPlanActive = pathname === '/listedWorkout';
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-neutral shadow-sm">
       <div className="navbar w-10/12 mx-auto text-neutral-content px-0">
@@ -17,8 +28,8 @@ const Navbar = () => {
             </svg>
           </div>
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-[#12141c] rounded-box w-52 border border-zinc-800">
-            <li><Link href="/Workouts" className="hover:text-lime-400 font-semibold">Workouts</Link></li>
-            <li><Link href="#plan" className="text-zinc-300">My Plan</Link></li>
+            <li><Link href="/Workouts" aria-current={isWorkoutsActive ? "page" : undefined} className={`font-semibold ${isWorkoutsActive ? "text-lime-400" : "hover:text-lime-400"}`}>Workouts</Link></li>
+            <li><Link href="/listedWorkout?tab=plan" aria-current={isPlanActive ? "page" : undefined} className={isPlanActive ? "text-lime-400" : "text-zinc-300 hover:text-lime-400"}>My Plan</Link></li>
           </ul>
         </div>
 
@@ -33,12 +44,12 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-2 items-center">
           <li>
-            <Link href="/Workouts" className="text-zinc-400 font-semibold rounded-full hover:text-lime-500 hover:bg-accent-content px-4 py-1.5">
+            <Link href="/Workouts" aria-current={isWorkoutsActive ? "page" : undefined} className={`${isWorkoutsActive ? "text-lime-400 bg-accent-content" : "text-zinc-400 hover:text-lime-500 hover:bg-accent-content"} font-semibold rounded-full px-4 py-1.5`}>
               Workouts
             </Link>
           </li>
           <li>
-            <Link href="#plan" className="text-zinc-400 hover:text-lime-500 rounded-full font-medium hover:bg-accent-content">
+            <Link href="/listedWorkout?tab=plan" aria-current={isPlanActive ? "page" : undefined} className={`${isPlanActive ? "text-lime-400 bg-accent-content" : "text-zinc-400 hover:text-lime-500 hover:bg-accent-content"} rounded-full font-medium`}>
               My Plan
             </Link>
           </li>
@@ -47,16 +58,16 @@ const Navbar = () => {
 
       <div className="navbar-end gap-3 lg:gap-4 text-xs lg:text-sm font-medium">
         <div className="flex items-center gap-1.5 lg:gap-2 text-zinc-300">
-          <a href="#plan" className="hover:text-lime-400 font-semibold">Plan</a>
+          <Link href="/listedWorkout?tab=plan" className="hover:text-lime-400 font-semibold">Plan</Link>
           <span className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-lime-400 text-black flex items-center justify-center font-bold text-[11px] lg:text-xs">
-            0
+            {planCount}
           </span>
         </div>
         
         <div className="flex items-center gap-1.5 lg:gap-2 text-zinc-300">
-          <a href="#saved" className="hover:text-lime-400 font-semibold">Saved</a>
+          <Link href="/listedWorkout?tab=saved" className="hover:text-lime-400 font-semibold">Saved</Link>
           <span className="w-6 h-6 lg:w-7 lg:h-7 rounded-full border border-zinc-700 bg-zinc-900 text-zinc-300 flex items-center justify-center font-bold text-[11px] lg:text-xs">
-            0
+            {savedCount}
           </span>
         </div>
       </div>
