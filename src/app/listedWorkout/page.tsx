@@ -12,17 +12,47 @@ const ListedWorkoutContent = () => {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"plan" | "saved">("plan");
   const [sortBy, setSortBy] = useState<string>("duration");
+  const [completedIds, setCompletedIds] = useState<number[]>([]);
+  const [completedHydrated, setCompletedHydrated] = useState(false);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
     if (tab === "plan" || tab === "saved") setActiveTab(tab);
   }, [searchParams]);
 
+  useEffect(() => {
+    try {
+      const savedIds = localStorage.getItem("fitlog-completed-workouts");
+      if (savedIds) {
+        const parsedIds: unknown = JSON.parse(savedIds);
+        if (Array.isArray(parsedIds) && parsedIds.every((id) => typeof id === "number")) {
+          setCompletedIds(parsedIds);
+        }
+      }
+    } catch (error) {
+      console.error("Could not load completed workout data:", error);
+    } finally {
+      setCompletedHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!completedHydrated) return;
+    localStorage.setItem("fitlog-completed-workouts", JSON.stringify(completedIds));
+  }, [completedHydrated, completedIds]);
+
   if (!context) {
     return <div className="text-center py-20 text-white">Loading...</div>;
   }
 
   const { workout, setWorkout, wishlist, setWishlist } = context;
+
+  const handleMarkDone = (id: number) => {
+    setCompletedIds((currentIds) =>
+      currentIds.includes(id) ? currentIds : [...currentIds, id],
+    );
+    toast.success("Workout marked as done!");
+  };
 
   const currentList = activeTab === "plan" ? workout : wishlist;
 
@@ -166,8 +196,17 @@ const ListedWorkoutContent = () => {
                   View Details
                 </Link>
                 {activeTab === "plan" && (
-                  <button className="bg-lime-400 hover:bg-lime-500 text-black font-bold px-4 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer">
-                    ✓ Mark as Done
+                  <button
+                    type="button"
+                    onClick={() => handleMarkDone(item.id)}
+                    disabled={completedIds.includes(item.id)}
+                    className={`font-bold px-4 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1.5 ${
+                      completedIds.includes(item.id)
+                        ? "bg-zinc-700 text-zinc-300 cursor-default"
+                        : "bg-lime-400 hover:bg-lime-500 text-black cursor-pointer"
+                    }`}
+                  >
+                    {completedIds.includes(item.id) ? "✓ Completed" : "✓ Mark as Done"}
                   </button>
                 )}
                 <button
