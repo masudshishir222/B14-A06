@@ -82,15 +82,16 @@ const Library = () => {
             href={`/Workouts/${item.id}`}
             className="block bg-[#15161d] border border-[#292b35] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-lime-400 hover:shadow-lg hover:shadow-lime-400/10 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-[#0f1015]"
           >
-
-            <div className="relative w-full h-48 sm:h-52">
-              <Image
-                src={item.image}
-                alt={item.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+<div className="relative w-full h-48 sm:h-52">
+  <Image
+    src={item.image || `https://img.magnific.com/workout-${item.id}.jpg`}
+    alt={item.name}
+    fill
+    sizes="(max-width: 768px) 100vw, 33vw"
+    className="object-cover"
+    unoptimized 
+  />
+</div>
 
             <div className="p-5">
 
