@@ -13,18 +13,23 @@ interface AddButtonProps {
 
 const AddButton = ({ item }: AddButtonProps) => {
   const context = useContext(LibraryContext);
+  const router = useRouter();
 
   if (!context) {
     return null;
   }
 
   const { workout, setWorkout } = context;
-  const router = useRouter();
 
   const handleAdd = () => {
     const isAlreadyAdded = workout.some((w) => w.id === item.id);
     
     if (!isAlreadyAdded) {
+      if (workout.length >= 5) {
+        toast.info("Your plan is full. Complete a workout before adding another.");
+        return;
+      }
+
       setWorkout([...workout, item]);
       toast.success("Added to today's plan successfully!");
     } else {

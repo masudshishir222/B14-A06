@@ -22,7 +22,7 @@ const WorkContexts = ({ children }: { children: ReactNode }) => {
       const savedState = localStorage.getItem("fitlog-library-state");
       if (savedState) {
         const parsedState = JSON.parse(savedState);
-        if (Array.isArray(parsedState.workout)) setWorkout(parsedState.workout);
+        if (Array.isArray(parsedState.workout)) setWorkout(parsedState.workout); 
         if (Array.isArray(parsedState.wishlist)) setWishlist(parsedState.wishlist);
       }
     } catch (error) {

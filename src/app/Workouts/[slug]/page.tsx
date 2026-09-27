@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { LibraryItem } from "@/Types/type";
-import { fallbackWorkouts } from "@/data/fallbackWorkouts";
+import { getWorkoutLibraryOrEmpty } from "@/Fetchlib/workouts";
 import AddButton from "@/app/components/WorkoutDetails/addButton";
 import AddButton2 from "@/app/components/WorkoutDetails/wishlistButton";
 
@@ -14,18 +13,7 @@ interface WorkoutDetailsPageProps {
 
 const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
   const { slug } = await params;
-  let workouts: LibraryItem[] = fallbackWorkouts;
-  try {
-    const response = await fetch("https://api.abcz.workers.dev/api/fitlog", {
-      next: { revalidate: 300 },
-    });
-    if (response.ok) {
-      const result: unknown = await response.json();
-      if (Array.isArray(result)) workouts = result as LibraryItem[];
-    }
-  } catch {
-    // Keep detail pages usable from the built-in dataset when the API is unavailable.
-  }
+  const workouts = await getWorkoutLibraryOrEmpty();
   const workout = workouts.find((item) => String(item.id) === slug);
 
   if (!workout) {

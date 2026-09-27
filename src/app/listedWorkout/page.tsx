@@ -4,21 +4,19 @@ import React, { Suspense, useContext, useEffect, useState } from "react";
 import { LibraryContext } from "@/Context/LibraryContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
+import type { LibraryItem } from "@/Types/type";
 
 const ListedWorkoutContent = () => {
   const context = useContext(LibraryContext);
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState<"plan" | "saved">("plan");
+  const router = useRouter();
+  const requestedTab = searchParams.get("tab");
+  const activeTab = requestedTab === "saved" ? "saved" : "plan";
   const [sortBy, setSortBy] = useState<string>("duration");
   const [completedIds, setCompletedIds] = useState<number[]>([]);
   const [completedHydrated, setCompletedHydrated] = useState(false);
-
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab === "plan" || tab === "saved") setActiveTab(tab);
-  }, [searchParams]);
 
   useEffect(() => {
     try {
@@ -26,7 +24,7 @@ const ListedWorkoutContent = () => {
       if (savedIds) {
         const parsedIds: unknown = JSON.parse(savedIds);
         if (Array.isArray(parsedIds) && parsedIds.every((id) => typeof id === "number")) {
-          setCompletedIds(parsedIds);
+          setCompletedIds(parsedIds); // eslint-disable-line react-hooks/set-state-in-effect -- Restore browser-only state after mount to avoid hydration mismatch.
         }
       }
     } catch (error) {
@@ -58,20 +56,20 @@ const ListedWorkoutContent = () => {
 
   const handleRemove = (id: number) => {
     if (activeTab === "plan") {
-      setWorkout(workout.filter((item: any) => item.id !== id));
+      setWorkout(workout.filter((item) => item.id !== id));
       toast.success("Removed from today's plan.");
     } else {
-      setWishlist(wishlist.filter((item: any) => item.id !== id));
+      setWishlist(wishlist.filter((item) => item.id !== id));
       toast.success("Removed from your saved list.");
     }
   };
 
   const totalExercises = currentList.length;
-  const totalMinutes = currentList.reduce((acc: number, item: any) => acc + (Number(item.duration) || 0), 0);
-  const totalCalories = currentList.reduce((acc: number, item: any) => acc + (Number(item.caloriesBurned) || 0), 0);
+  const totalMinutes = currentList.reduce((acc, item) => acc + item.duration, 0);
+  const totalCalories = currentList.reduce((acc, item) => acc + item.caloriesBurned, 0);
 
 
-  const sortedList = [...currentList].sort((a: any, b: any) => {
+  const sortedList = [...currentList].sort((a: LibraryItem, b: LibraryItem) => {
     if (sortBy === "duration") return (b.duration || 0) - (a.duration || 0);
     if (sortBy === "calories") return (b.caloriesBurned || 0) - (a.caloriesBurned || 0);
     if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0);
@@ -108,17 +106,17 @@ const ListedWorkoutContent = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="bg-[#12141c] p-1.5 rounded-full border border-zinc-800 flex items-center gap-1">
           <button
-            onClick={() => setActiveTab("plan")}
+            onClick={() => router.replace("/listedWorkout?tab=plan")}
             className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${
               activeTab === "plan"
                 ? "bg-[#1f212d] text-white shadow-md"
                 : "text-zinc-400 hover:text-white"
             }`}
           >
-            Today's Plan
+            Today&apos;s Plan
           </button>
           <button
-            onClick={() => setActiveTab("saved")}
+            onClick={() => router.replace("/listedWorkout?tab=saved")}
             className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${
               activeTab === "saved"
                 ? "bg-[#1f212d] text-white shadow-md"
@@ -160,7 +158,7 @@ const ListedWorkoutContent = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          {sortedList.map((item: any) => (
+          {sortedList.map((item) => (
             <div
               key={item.id}
               className="bg-[#12141c] border border-zinc-800/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-zinc-700"

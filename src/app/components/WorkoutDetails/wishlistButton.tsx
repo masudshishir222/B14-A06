@@ -12,13 +12,13 @@ interface WishlistButtonProps {
 
 const WishlistButton = ({ item }: WishlistButtonProps) => {
   const context = useContext(LibraryContext);
+  const router = useRouter();
 
   if (!context) {
     return null;
   }
 
   const { wishlist, setWishlist } = context;
-  const router = useRouter();
 
   const handleWishlist = () => {
     const isAlreadySaved = wishlist.some((savedItem) => savedItem.id === item.id);
